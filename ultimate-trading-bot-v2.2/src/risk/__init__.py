@@ -64,6 +64,66 @@ from src.risk.correlation_risk import (
     CorrelationCluster,
     DiversificationMetrics,
 )
+from src.risk.liquidity_risk import (
+    LiquidityRiskManager,
+    LiquidityRiskConfig,
+    LiquidityMetrics,
+    LiquidityLevel,
+    MarketImpactEstimate,
+    ExecutionRiskAssessment,
+    MarketImpactModel,
+)
+from src.risk.margin_manager import (
+    MarginManager,
+    MarginManagerConfig,
+    MarginRequirement,
+    AccountMarginStatus,
+    MarginType,
+    MarginCallType,
+    LeverageLevel,
+)
+from src.risk.trade_validator import (
+    TradeValidator,
+    TradeValidatorConfig,
+    OrderRequest,
+    ValidationResponse,
+    ValidationResult,
+    RejectionReason,
+    OrderType,
+    OrderSide,
+)
+from src.risk.risk_metrics import (
+    RiskMetricsCalculator,
+    RiskMetricsConfig,
+    PerformanceMetrics,
+    MetricPeriod,
+)
+from src.risk.stress_tester import (
+    StressTester,
+    StressTesterConfig,
+    StressScenario,
+    StressTestResult,
+    ScenarioType,
+    HistoricalEvent,
+    MonteCarloResult,
+)
+from src.risk.risk_limits import (
+    RiskLimitsManager,
+    RiskLimit as RiskLimitDef,
+    LimitCheck,
+    LimitType,
+    LimitAction,
+    LimitStatus,
+)
+from src.risk.risk_reporter import (
+    RiskReporter,
+    RiskReporterConfig,
+    RiskReport,
+    ReportSection,
+    ReportType,
+    ReportFormat,
+    ReportFrequency,
+)
 
 
 __all__ = [
@@ -117,6 +177,59 @@ __all__ = [
     "CorrelationPair",
     "CorrelationCluster",
     "DiversificationMetrics",
+    # Liquidity Risk
+    "LiquidityRiskManager",
+    "LiquidityRiskConfig",
+    "LiquidityMetrics",
+    "LiquidityLevel",
+    "MarketImpactEstimate",
+    "ExecutionRiskAssessment",
+    "MarketImpactModel",
+    # Margin Manager
+    "MarginManager",
+    "MarginManagerConfig",
+    "MarginRequirement",
+    "AccountMarginStatus",
+    "MarginType",
+    "MarginCallType",
+    "LeverageLevel",
+    # Trade Validator
+    "TradeValidator",
+    "TradeValidatorConfig",
+    "OrderRequest",
+    "ValidationResponse",
+    "ValidationResult",
+    "RejectionReason",
+    "OrderType",
+    "OrderSide",
+    # Risk Metrics
+    "RiskMetricsCalculator",
+    "RiskMetricsConfig",
+    "PerformanceMetrics",
+    "MetricPeriod",
+    # Stress Tester
+    "StressTester",
+    "StressTesterConfig",
+    "StressScenario",
+    "StressTestResult",
+    "ScenarioType",
+    "HistoricalEvent",
+    "MonteCarloResult",
+    # Risk Limits
+    "RiskLimitsManager",
+    "RiskLimitDef",
+    "LimitCheck",
+    "LimitType",
+    "LimitAction",
+    "LimitStatus",
+    # Risk Reporter
+    "RiskReporter",
+    "RiskReporterConfig",
+    "RiskReport",
+    "ReportSection",
+    "ReportType",
+    "ReportFormat",
+    "ReportFrequency",
 ]
 
 
@@ -177,5 +290,24 @@ def create_comprehensive_risk_system(
         ),
         "correlation_manager": CorrelationRiskManager(
             config=CorrelationRiskConfig(**risk_config.get("correlation", {}))
+        ),
+        "liquidity_manager": LiquidityRiskManager(
+            config=LiquidityRiskConfig(**risk_config.get("liquidity", {}))
+        ),
+        "margin_manager": MarginManager(
+            config=MarginManagerConfig(**risk_config.get("margin", {}))
+        ),
+        "trade_validator": TradeValidator(
+            config=TradeValidatorConfig(**risk_config.get("trade_validator", {}))
+        ),
+        "risk_metrics": RiskMetricsCalculator(
+            config=RiskMetricsConfig(**risk_config.get("risk_metrics", {}))
+        ),
+        "stress_tester": StressTester(
+            config=StressTesterConfig(**risk_config.get("stress_test", {}))
+        ),
+        "risk_limits": RiskLimitsManager(),
+        "risk_reporter": RiskReporter(
+            config=RiskReporterConfig(**risk_config.get("reporter", {}))
         ),
     }
