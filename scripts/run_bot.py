@@ -36,7 +36,9 @@ def main(argv=None):
     risk = RiskManager(RiskConfig())
     execution = ExecutionEngine()
     engine = TradingEngine(data, strategies, risk, execution)
+    engine.initialize(context)
     fills = engine.run_once(context)
+    engine.shutdown(context)
     db = DatabaseManager()
     for fill in fills:
         db.save_trade(fill)
